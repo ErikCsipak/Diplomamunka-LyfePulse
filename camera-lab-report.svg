@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#334d63"/><stop offset="1" stop-color="#172b4d"/></linearGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="900" height="560" fill="url(#bg)"/>
+  <circle cx="120" cy="80" r="150" fill="#6edcc5" opacity=".08"/>
+  <ellipse cx="450" cy="490" rx="330" ry="38" fill="#071a2c" opacity=".45" filter="url(#shadow)"/>
+  <g transform="translate(245 54) rotate(-5 210 220)">
+    <rect width="420" height="440" rx="5" fill="#fff" />
+    <rect x="30" y="32" width="190" height="14" rx="4" fill="#172b4d"/>
+    <rect x="30" y="62" width="120" height="7" rx="3" fill="#9aa9b7"/>
+    <rect x="30" y="105" width="360" height="2" fill="#e5ebef"/>
+    <text x="30" y="140" font-family="Arial" font-size="15" font-weight="bold" fill="#172b4d">LABORATÓRIUMI LELET</text>
+    <text x="30" y="166" font-family="Arial" font-size="10" fill="#748196">Név: Kovács Anna</text>
+    <text x="30" y="184" font-family="Arial" font-size="10" fill="#748196">Vizsgálat dátuma: 2024. 06. 08.</text>
+    <rect x="30" y="210" width="360" height="26" rx="3" fill="#eaf8f4"/>
+    <text x="42" y="228" font-family="Arial" font-size="10" font-weight="bold" fill="#288b7a">Vizsgálat</text>
+    <text x="260" y="228" font-family="Arial" font-size="10" font-weight="bold" fill="#288b7a">Eredmény</text>
+    <text x="42" y="262" font-family="Arial" font-size="11" fill="#536278">Hemoglobin</text><text x="270" y="262" font-family="Arial" font-size="11" fill="#172b4d">142 g/L</text>
+    <text x="42" y="294" font-family="Arial" font-size="11" fill="#536278">Vércukor</text><text x="270" y="294" font-family="Arial" font-size="11" fill="#172b4d">4.8 mmol/L</text>
+    <text x="42" y="326" font-family="Arial" font-size="11" fill="#536278">Koleszterin</text><text x="270" y="326" font-family="Arial" font-size="11" fill="#172b4d">4.2 mmol/L</text>
+    <rect x="30" y="355" width="360" height="2" fill="#e5ebef"/>
+    <rect x="30" y="380" width="160" height="7" rx="3" fill="#dbe4ea"/><rect x="30" y="398" width="240" height="7" rx="3" fill="#dbe4ea"/>
+  </g>
+</svg>
