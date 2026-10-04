@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LyfePulse | Egészség egy ritmusban</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="auth-view" class="auth-shell">
+    <div class="auth-brand"><span class="brand-mark"><i class="bi bi-heart-pulse-fill"></i></span><span>Lyfe<span>Pulse</span></span></div>
+    <div class="auth-card">
+      <div class="auth-intro">
+        <p class="eyebrow">EGÉSZSÉGED, EGY HELYEN</p>
+        <h1>Élj tudatosabban,<br><em>minden nap.</em></h1>
+        <p class="intro-copy">A vérképedből érthető adatok és személyes ajánlások. Kövesd nyomon egészséged alakulását.</p>
+        <div class="intro-points"><span><i class="bi bi-check-circle-fill"></i> Biztonságos adattárolás</span><span><i class="bi bi-check-circle-fill"></i> Érthető statisztikák</span></div>
+      </div>
+      <div class="auth-form-wrap">
+        <div class="auth-tabs"><button class="auth-tab active" data-auth-tab="login">Bejelentkezés</button><button class="auth-tab" data-auth-tab="register">Regisztráció</button></div>
+        <form id="login-form" class="auth-form">
+          <h2>Üdv újra!</h2><p class="muted">Lépj be az egészségügyi fiókodba.</p>
+          <label for="taj">TAJ-szám</label><div class="input-icon"><i class="bi bi-person-vcard"></i><input id="taj" class="form-control" value="123 456 789" placeholder="000 000 000" required></div>
+          <label for="password">Jelszó</label><div class="input-icon"><i class="bi bi-lock"></i><input id="password" type="password" class="form-control" value="demo1234" placeholder="Jelszavad" required><button type="button" class="show-password"><i class="bi bi-eye"></i></button></div>
+          <div class="form-meta"><div><input type="checkbox" checked id="remember"><label for="remember"> Emlékezz rám</label></div><a href="#">Elfelejtetted?</a></div>
+          <button class="btn btn-primary w-100 auth-submit" type="submit">Bejelentkezés <i class="bi bi-arrow-right"></i></button>
+          <div class="or-divider"><span>vagy</span></div><button type="button" class="btn google-btn w-100"><span class="google-g">G</span> Folytatás Google-fiókkal</button>
+        </form>
+        <form id="register-form" class="auth-form d-none">
+          <h2>Hozd létre a fiókod</h2><p class="muted">Pár adat, és már kezdhetjük is.</p>
+          <div class="name-grid"><div><label for="last-name">Vezetéknév</label><input id="last-name" class="form-control" placeholder="Kovács" required></div><div><label for="first-name">Keresztnév</label><input id="first-name" class="form-control" placeholder="Anna" required></div></div>
+          <div class="name-grid"><div><label for="age">Kor</label><input id="age" type="number" class="form-control" placeholder="35" required></div><div><label for="gender">Nem</label><select id="gender" class="form-select"><option>Nő</option><option>Férfi</option><option>Nem szeretném megadni</option></select></div></div>
+          <label for="birth-date">Születési dátum</label><input id="birth-date" type="date" class="form-control" required>
+          <button class="btn btn-primary w-100 auth-submit" type="submit">Regisztráció <i class="bi bi-arrow-right"></i></button>
+          <div class="or-divider"><span>vagy</span></div><button type="button" class="btn google-btn w-100"><span class="google-g">G</span> Regisztráció Google-fiókkal</button>
+        </form>
+      </div>
+    </div>
+    <p class="auth-footer">© 2024 LyfePulse · Az egészséged a mi küldetésünk</p>
+  </div>
+
+  <div id="app-view" class="app-shell d-none">
+    <nav class="sidebar">
+      <div class="auth-brand sidebar-brand"><span class="brand-mark"><i class="bi bi-heart-pulse-fill"></i></span><span>Lyfe<span>Pulse</span></span></div>
+      <div class="nav-label">MENÜ</div>
+      <button class="side-link active" data-view="dashboard"><i class="bi bi-grid-1x2-fill"></i> Áttekintés</button>
+      <button class="side-link" data-view="records"><i class="bi bi-file-earmark-medical"></i> Eredményeim <span class="nav-count">5</span></button>
+      <button class="side-link" data-view="recommendations"><i class="bi bi-stars"></i> AI ajánlások</button>
+      <div class="sidebar-bottom"><button class="side-link" data-profile><i class="bi bi-person-circle"></i> Profilom</button><button class="side-link logout-btn"><i class="bi bi-box-arrow-left"></i> Kijelentkezés</button></div>
+    </nav>
+    <main class="main-content">
+      <header class="topbar"><div class="mobile-brand">Lyfe<span>Pulse</span></div><div class="top-actions"><button class="notification-btn"><i class="bi bi-bell"></i><span></span></button><button class="profile-button" data-profile><span class="avatar">KA</span><span class="profile-name">Kovács Anna</span><i class="bi bi-chevron-down"></i></button></div></header>
+      <div id="dashboard-view" class="content-view">
+        <div class="page-heading"><div><p class="eyebrow">2024. JÚNIUS 12., SZERDA</p><h1>Jó reggelt, Anna! <span>👋</span></h1><p class="subtitle">Itt van az egészséged mai összefoglalója.</p></div><button class="btn btn-outline-primary upload-btn"><i class="bi bi-cloud-arrow-up"></i> Eredmény feltöltése</button></div>
+        <section class="profile-summary card-panel"><div class="summary-icon"><i class="bi bi-person"></i></div><div><h3>Kovács Anna</h3><p>34 éves <span>•</span> 68 kg <span>•</span> Nő</p></div><button class="edit-profile" data-profile>Adatok szerkesztése <i class="bi bi-pencil"></i></button></section>
+        <section class="stat-card card-panel"><div class="section-head"><div><p class="eyebrow">EGÉSZSÉGI ÁLLAPOT</p><h2>Normalizált érték alakulása</h2></div><select id="metric-select" class="metric-select"><option value="health">Összesített állapot</option><option value="hemoglobin">Hemoglobin</option><option value="glucose">Vércukor</option><option value="cholesterol">Koleszterin</option></select></div><div class="chart-legend"><span><i class="legend-dot"></i> Normalizált érték</span><span class="legend-range"><i></i> Egészséges tartomány</span><strong id="current-score">84 / 100</strong></div><div class="chart-wrap"><canvas id="health-chart"></canvas></div><div class="chart-axis-labels"><span>2023. dec.</span><span>2024. febr.</span><span>2024. ápr.</span><span>2024. jún.</span></div></section>
+        <section class="results-section"><div class="section-title-row"><div><p class="eyebrow">VÉRKÉP EREDMÉNYEK</p><h2>Legutóbbi eredmények</h2></div><button class="text-btn" data-view="records">Összes megtekintése <i class="bi bi-arrow-up-right"></i></button></div><div id="recent-results" class="results-grid"></div></section>
+        <section class="recommendation card-panel"><div class="recommendation-icon"><i class="bi bi-stars"></i></div><div class="recommendation-content"><p class="eyebrow">SZEMÉLYES AI AJÁNLÁS</p><h3>Figyelj a megfelelő folyadékbevitelre!</h3><p>A legutóbbi eredményeid alapján napi 2–2,5 liter víz fogyasztása támogathatja a szervezeted egyensúlyát és energiaszintedet.</p><button class="text-btn" data-chat>Tudj meg többet <i class="bi bi-arrow-right"></i></button></div><div class="recommendation-art"><i class="bi bi-droplet-fill"></i></div></section>
+      </div>
+      <div id="records-view" class="content-view d-none"><div class="page-heading"><div><p class="eyebrow">VÉRKÉP EREDMÉNYEK</p><h1>Összes eredmény</h1><p class="subtitle">Keresd meg és kezeld a feltöltött vérképeidet.</p></div><button class="btn btn-primary upload-btn"><i class="bi bi-plus-lg"></i> Új eredmény</button></div><div class="records-toolbar card-panel"><div class="search-box"><i class="bi bi-search"></i><input id="record-search" placeholder="Keresés dokumentumszám alapján..."></div><select class="form-select period-select"><option>Összes időpont</option><option>2024</option><option>2023</option></select></div><div class="card-panel table-panel"><div class="table-responsive"><table class="table align-middle"><thead><tr><th>EREDMÉNY DOKUMENTUMSZÁMA</th><th>ELKÉSZÍTÉS IDEJE</th><th>FELTÖLTÉS IDEJE</th><th>ÁLLAPOT</th><th></th></tr></thead><tbody id="records-table"></tbody></table></div></div></div>
+      <div id="edit-view" class="content-view d-none"><button class="back-button" data-view="records"><i class="bi bi-arrow-left"></i> Vissza az eredményekhez</button><div class="edit-heading"><div><p class="eyebrow">EREDMÉNY SZERKESZTÉSE</p><h1 id="edit-title">LP-2024-001</h1><p class="subtitle">Módosítsd az eredményhez tartozó értékeket.</p></div><button id="save-record" class="btn btn-primary"><i class="bi bi-check2"></i> Mentés</button></div><div class="edit-grid"><div class="card-panel"><h3>Vizsgálat adatai</h3><div class="row g-3"><div class="col-sm-6"><label class="form-label">Dokumentumszám</label><input id="edit-doc" class="form-control"></div><div class="col-sm-6"><label class="form-label">Elkészítés ideje</label><input id="edit-date" type="date" class="form-control"></div><div class="col-sm-6"><label class="form-label">Feltöltés ideje</label><input id="edit-upload" type="date" class="form-control"></div><div class="col-sm-6"><label class="form-label">Laboratórium</label><input class="form-control" value="Duna Medical Center"></div></div></div><div class="card-panel"><div class="section-title-row"><h3>Vérkép értékek</h3><span class="unit-label">Mért érték / referencia</span></div><div class="values-list" id="values-list"></div><button class="add-value-btn"><i class="bi bi-plus-circle"></i> Új érték hozzáadása</button></div></div></div>
+      <div id="recommendations-view" class="content-view d-none"><div class="page-heading"><div><p class="eyebrow">LYFEPULSE AI</p><h1>AI ajánlások</h1><p class="subtitle">Személyre szabott, érthető támogatás az egészségedhez.</p></div></div><div class="recommendation-large card-panel"><div class="recommendation-icon"><i class="bi bi-stars"></i></div><p class="eyebrow">AKTUÁLIS AJÁNLÁS</p><h2>Figyelj a megfelelő folyadékbevitelre!</h2><p>A legutóbbi laboreredményeid alapján a megfelelő hidratáltság segíthet az energiaszinted fenntartásában. Próbálj meg egyenletesen, a nap folyamán elosztva napi 2–2,5 liter vizet inni.</p><div class="tip-row"><span><i class="bi bi-check2"></i> Tarts magadnál kulacsot</span><span><i class="bi bi-check2"></i> Állíts be emlékeztetőt</span><span><i class="bi bi-check2"></i> Kezdd a reggelt egy pohár vízzel</span></div><button class="btn btn-primary" data-chat>Beszélgess az AI asszisztenssel <i class="bi bi-chat-dots"></i></button></div></div>
+    </main>
+  </div>
+  <div class="modal fade" id="profileModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><div><p class="eyebrow">SAJÁT ADATAIM</p><h2>Profil szerkesztése</h2></div><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="name-grid"><div><label>Vezetéknév</label><input class="form-control" value="Kovács"></div><div><label>Keresztnév</label><input class="form-control" value="Anna"></div></div><label>TAJ-szám</label><input class="form-control" value="123 456 789"><div class="name-grid"><div><label>Születési dátum</label><input type="date" class="form-control" value="1990-04-18"></div><div><label>Nem</label><select class="form-select"><option>Nő</option><option>Férfi</option></select></div></div><label>Testsúly (kg)</label><input class="form-control" value="68"></div><div class="modal-footer"><button class="btn btn-light" data-bs-dismiss="modal">Mégse</button><button class="btn btn-primary" data-bs-dismiss="modal">Változtatások mentése</button></div></div></div></div>
+  <div class="modal fade" id="chatModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content chat-modal"><div class="modal-header"><div class="chat-title"><span class="chat-avatar"><i class="bi bi-stars"></i></span><div><h2>LyfePulse AI asszisztens</h2><small><i class="bi bi-circle-fill"></i> Online · csak tájékoztató jellegű</small></div></div><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="chat-message bot">Szia Anna! 😊 Az eredményeid és az életmódod alapján szívesen segítek. Miben támogathatlak ma?</div><div id="chat-messages"></div><div class="chat-input"><input id="chat-input" placeholder="Írd be a kérdésed..." autocomplete="off"><button id="chat-send"><i class="bi bi-send-fill"></i></button></div></div></div></div></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script><script src="script.js"></script>
+</body>
+</html>
