@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LyfePulse | Regisztráció</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="auth-view" class="auth-shell">
+  <div class="auth-brand"><span class="brand-mark"><i class="bi bi-heart-pulse-fill"></i></span><span>Lyfe<span>Pulse</span></span></div>
+  <div class="auth-card">
+    <div class="auth-intro"><p class="eyebrow">EGÉSZSÉGED, EGY HELYEN</p><h1>Egy életed van,<br><em>vigyázzunk rá együtt.</em></h1><p class="intro-copy">A vérképedből érthető adatok és személyes ajánlások. Kövesd nyomon egészséged alakulását.</p><div class="intro-points"><span><i class="bi bi-check-circle-fill"></i> Biztonságos adattárolás</span><span><i class="bi bi-check-circle-fill"></i> Érthető statisztikák</span></div></div>
+    <div class="auth-form-wrap"><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="login">Bejelentkezés</button><button class="auth-tab" data-auth-tab="register">Regisztráció</button></div>
+      <form id="login-form" class="auth-form"><h2>Üdv újra!</h2><p class="muted">Lépj be az egészségügyi fiókodba.</p><label for="taj">TAJ-szám</label><div class="input-icon"><i class="bi bi-person-vcard"></i><input id="taj" class="form-control" value="123 456 789" required></div><label for="password">Jelszó</label><div class="input-icon"><i class="bi bi-lock"></i><input id="password" type="password" class="form-control" value="demo1234" required></div><div class="form-meta"><span><input type="checkbox" checked> Emlékezz rám</span><a href="#">Elfelejtetted?</a></div><button class="btn btn-primary w-100 auth-submit">Bejelentkezés <i class="bi bi-arrow-right"></i></button></form>
+      <form id="register-form" class="auth-form d-none"><h2>Hozd létre a fiókod</h2><p class="muted">Pár adat, és már kezdhetjük is.</p><div class="name-grid"><div><label for="last-name">Vezetéknév</label><input id="last-name" class="form-control" required></div><div><label for="first-name">Keresztnév</label><input id="first-name" class="form-control" required></div></div><div class="name-grid"><div><label for="age">Kor</label><input id="age" type="number" class="form-control" required></div><div><label for="gender">Nem</label><select id="gender" class="form-select"><option>Nő</option><option>Férfi</option><option>Nem szeretném megadni</option></select></div></div><label for="birth-date">Születési dátum</label><input id="birth-date" type="date" class="form-control" required><button class="btn btn-primary w-100 auth-submit mt-3">Regisztráció <i class="bi bi-arrow-right"></i></button></form>
+    </div>
+  </div>
+  <p class="auth-footer">© 2024 LyfePulse · Az egészséged a mi küldetésünk</p>
+</div>
+<div class="modal fade" id="patientIdentityModal" tabindex="-1" aria-labelledby="patient-identity-title" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content identity-modal"><div class="identity-info"><p class="eyebrow">FIÓKAKTIVÁLÁS</p><h2 id="patient-identity-title">Még egy kis információra van szükségünk</h2><p>A TAJ-számod és a TAJ-kártyád képe segít biztonságosan azonosítani a fiókodat.</p><div class="identity-tip"><i class="bi bi-shield-lock"></i><span>Az adatokat bizalmasan kezeljük, és kizárólag a fiókod létrehozásához használjuk.</span></div></div><form id="patient-identity-form" class="identity-form"><div class="modal-header"><div><p class="eyebrow">AZONOSÍTÓ ADATOK</p><h2>TAJ-adatok megadása</h2><p class="muted">Add meg a TAJ-számodat, majd töltsd fel a kártyád képét.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><label for="identity-taj">TAJ-szám</label><input id="identity-taj" class="form-control taj-input" placeholder="000 000 000" pattern="[0-9 ]{9,11}" required><label class="identity-upload"><span class="upload-icon"><i class="bi bi-credit-card-2-front"></i></span><span><strong>TAJ-kártya képe</strong><small>JPG, PNG vagy PDF · max. 10 MB</small><em id="taj-file-name">Nincs fájl kiválasztva</em></span><input id="taj-card-file" type="file" accept=".jpg,.jpeg,.png,.pdf" required></label></div><div class="modal-footer"><button type="submit" class="btn btn-primary">Adatok elküldése <i class="bi bi-arrow-right"></i></button></div></form></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="script.js"></script>
+</body></html>
