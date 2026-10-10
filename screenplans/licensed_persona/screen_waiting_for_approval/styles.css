@@ -1,0 +1,16 @@
+@import url("../styles.css");
+
+.doctor-intro{background:linear-gradient(145deg,#172b4d,#244f68)!important}
+.waiting-content{min-height:calc(100vh - 78px);display:grid;place-items:center;padding-top:30px;padding-bottom:40px}
+.waiting-card{width:min(680px,100%);padding:44px 58px 38px;text-align:center}
+.waiting-card img{display:block;width:min(220px,70%);height:auto;margin:0 auto 25px}
+.waiting-card .eyebrow{margin-bottom:10px}
+.waiting-card h1{font-size:25px;line-height:1.25;margin-bottom:13px}
+.waiting-copy{color:var(--muted);font-size:13px;line-height:1.75;max-width:500px;margin:0 auto}
+.waiting-status{display:inline-flex;align-items:center;gap:8px;background:#fff3da;color:#bb8422;border-radius:18px;padding:8px 13px;margin-top:23px;font-size:11px;font-weight:700}
+.waiting-status i{font-size:14px}
+.waiting-note{color:#8592a2;font-size:11px;line-height:1.6;margin:22px auto 0;max-width:440px}
+.waiting-note i{color:#7188ad;margin-right:4px}
+.locked-link:disabled{opacity:.52;cursor:not-allowed}
+.notification-btn:disabled{opacity:.6}
+@media(max-width:650px){.waiting-content{min-height:calc(100vh - 65px);padding:20px 18px 30px}.waiting-card{padding:32px 22px 28px}.waiting-card img{width:180px;margin-bottom:20px}.waiting-card h1{font-size:22px}.waiting-copy{font-size:12px}}
