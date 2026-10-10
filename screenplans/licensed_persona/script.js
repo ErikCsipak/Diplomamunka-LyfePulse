@@ -1,0 +1,95 @@
+const records=[
+ {doc:"LP-2024-005",date:"2024. június 08.",upload:"2024. június 09.",iso:"2024-06-08",values:[["Hemoglobin","142","120–160 g/L"],["Vércukor","4.8","3.9–5.6 mmol/L"],["Koleszterin","4.2","3.0–5.2 mmol/L"]]},
+ {doc:"LP-2024-004",date:"2024. április 21.",upload:"2024. április 22.",iso:"2024-04-21",values:[["Hemoglobin","139","120–160 g/L"],["Vércukor","5.1","3.9–5.6 mmol/L"],["Koleszterin","4.4","3.0–5.2 mmol/L"]]}
+];
+const metricDescriptions={
+ Hemoglobin:"A hemoglobin oxigént szállít a tüdőből a szövetekhez. Értékét befolyásolhatja többek között a vérzés, a vashiány, a folyadékállapot és a vörösvérsejt-termelés. Javulása gyakran kevesebb fáradtsággal, jobb terhelhetőséggel és koncentrációval járhat.",
+ Vércukor:"A vércukor a vérben keringő glükóz mennyisége, amely a sejtek fő energiaforrása. Az inzulinműködés, az étkezés, a stressz és a mozgás is hat rá. Rendezettebb értéknél egyenletesebb energiaszintet és kevesebb szomjúságot tapasztalhatunk.",
+ Koleszterin:"A koleszterin sejtek és hormonok felépítéséhez szükséges zsíranyag. A teljes értéket az LDL- és HDL-koleszterin, az étrend, a testsúly és az öröklött hajlam is befolyásolja. A kedvezőbb érték hosszú távon a szív-érrendszeri kockázat csökkenésével járhat."
+};
+const patients=[
+ {name:"Kovács Anna",taj:"123 456 789",age:34,weight:68,gender:"Nő",status:"Engedélyezve",kind:"approved",latest:"2024. június 08.",score:"84 / 100",recordKey:"anna",trend:[64,68,71,75,79]},
+ {name:"Szabó Bence",taj:"234 567 890",age:42,weight:81,gender:"Férfi",status:"Engedélyezve",kind:"approved",latest:"2024. május 27.",score:"78 / 100",recordKey:"bence",trend:[70,72,68,74,78]},
+ {name:"Tóth Éva",taj:"345 678 901",age:29,weight:59,gender:"Nő",status:"Jóváhagyásra vár",kind:"pending",latest:"Hozzáférés szükséges",score:"—"}
+];
+const directoryPatients=[
+ {name:"Nagy Dóra",taj:"456 789 012",age:37,weight:64,gender:"Nő",status:"Jóváhagyásra vár",kind:"pending",latest:"Hozzáférés szükséges",score:"—"}
+];
+const patientRecordsByPatient={
+ anna:[
+ {doc:"KA-2024-005",date:"2024. június 08.",upload:"2024. június 09.",iso:"2024-06-08",values:[["Hemoglobin","128","120–160 g/L"],["Vércukor","5.4","3.9–5.6 mmol/L"],["Koleszterin","5.0","3.0–5.2 mmol/L"]]},
+ {doc:"KA-2024-004",date:"2024. április 21.",upload:"2024. április 22.",iso:"2024-04-21",values:[["Hemoglobin","131","120–160 g/L"],["Vércukor","5.6","3.9–5.6 mmol/L"],["Koleszterin","5.1","3.0–5.2 mmol/L"]]},
+ {doc:"KA-2024-003",date:"2024. február 15.",upload:"2024. február 16.",iso:"2024-02-15",values:[["Hemoglobin","126","120–160 g/L"],["Vércukor","5.2","3.9–5.6 mmol/L"],["Koleszterin","4.8","3.0–5.2 mmol/L"]]},
+ {doc:"KA-2023-002",date:"2023. december 03.",upload:"2023. december 04.",iso:"2023-12-03",values:[["Hemoglobin","124","120–160 g/L"],["Vércukor","5.8","3.9–5.6 mmol/L"],["Koleszterin","5.3","3.0–5.2 mmol/L"]]},
+ {doc:"KA-2023-001",date:"2023. október 18.",upload:"2023. október 19.",iso:"2023-10-18",values:[["Hemoglobin","121","120–160 g/L"],["Vércukor","5.5","3.9–5.6 mmol/L"],["Koleszterin","5.0","3.0–5.2 mmol/L"]]}
+ ],
+ bence:[
+  {doc:"SB-2024-004",date:"2024. május 27.",upload:"2024. május 28.",iso:"2024-05-27",values:[["Hemoglobin","151","135–175 g/L"],["Vércukor","6.1","3.9–5.6 mmol/L"],["Koleszterin","5.6","3.0–5.2 mmol/L"]]},
+  {doc:"SB-2024-003",date:"2024. március 12.",upload:"2024. március 13.",iso:"2024-03-12",values:[["Hemoglobin","148","135–175 g/L"],["Vércukor","5.8","3.9–5.6 mmol/L"],["Koleszterin","5.3","3.0–5.2 mmol/L"]]},
+  {doc:"SB-2023-002",date:"2023. november 19.",upload:"2023. november 20.",iso:"2023-11-19",values:[["Hemoglobin","154","135–175 g/L"],["Vércukor","5.6","3.9–5.6 mmol/L"],["Koleszterin","5.0","3.0–5.2 mmol/L"]]}
+ ]};
+const additionalMetrics=["Fehérvérsejtszám","Trombocitaszám","Hematokrit","Vörösvérsejt-süllyedés","Kreatinin","Húgysav","Nátrium","Kálium","ALT (GPT)","AST (GOT)"];
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);let chart,patientChart,recordsChart,patientRecordsChart,activeRecord=0,selectedPatient=0;
+$("#records-view thead th:nth-child(4),#patient-records-view thead th:nth-child(4)").remove();
+$$(".google-btn,.auth-form .or-divider").forEach(element=>element.remove());
+function showView(view){$$(".content-view").forEach(x=>x.classList.add("d-none"));$(`#${view}-view`).classList.remove("d-none");$$(".side-link").forEach(x=>x.classList.toggle("active",x.dataset.view===view));if(view==="records"){renderTable();drawRecordsChart();}if(view==="patient-records"){let p=patients[selectedPatient];$("#patient-records-back").textContent=`Vissza ${p.name} adatlapjához`;$("#patient-records-eyebrow").textContent=`${p.name.toUpperCase()} · ENGEDÉLYEZETT HOZZÁFÉRÉS`;$("#patient-records-heading").textContent=`${p.name} leletei`;$("#patient-records-chart-label").textContent=`${p.name.toUpperCase()} VÉRKÉPÉNEK ALAKULÁSA`;$("#patient-records-score").textContent=p.score;renderPatientRecords();drawPatientRecordsChart();}}
+function openApp(){ $("#auth-view").classList.add("d-none");$("#app-view").classList.remove("d-none");renderPatients();renderRecent();renderTable();drawChart();}
+function patientMeta(p){return `TAJ: ${p.taj} • ${p.age} éves • ${p.weight} kg • ${p.gender}`;}
+function statusMarkup(p){return `<span class="status ${p.kind}" ${p.kind==="pending"?'data-bs-toggle="tooltip" data-bs-placement="top" title="A páciens még nem hagyta jóvá, hogy megtekintsd az adatait."':''}>${p.kind==="pending"?'<i class="bi bi-hourglass-split"></i>':'<i class="bi bi-check2"></i>'} ${p.status}</span>`;}
+function patientRow(p,i,includeAccess){return `<tr data-patient="${i}"><td><span class="avatar patient-avatar">${p.name.split(" ").map(x=>x[0]).join("")}</span><strong>${p.name}</strong><small>${patientMeta(p)}</small></td><td>${p.latest}</td><td>${statusMarkup(p)}</td>${includeAccess?`<td>${p.score}</td>`:""}<td><i class="bi bi-chevron-right"></i></td></tr>`;}
+function bindPatientRows(selector){$$(selector+" [data-bs-toggle='tooltip']").forEach(el=>new bootstrap.Tooltip(el));$$(selector+" [data-patient]").forEach(x=>x.addEventListener("click",()=>openPatient(+x.dataset.patient)));}
+function renderPatients(){let allHtml=patients.map((p,i)=>patientRow(p,i,true)).join("");let approvedHtml=patients.filter(p=>p.kind==="approved").map(p=>patientRow(p,patients.indexOf(p),false)).join("");$("#dashboard-patients-table").innerHTML=allHtml;$("#patients-table").innerHTML=approvedHtml;bindPatientRows("#dashboard-view");bindPatientRows("#patients-view");}
+function renderRecent(){ $("#recent-results").innerHTML=records.map((r,i)=>`<article class="result-card" data-record="${i}"><div class="doc">${r.doc}</div><div class="result-date"><i class="bi bi-calendar3"></i> ${r.date}</div><span class="status approved"><i class="bi bi-check2"></i> Feldolgozva</span></article>`).join("");$$("[data-record]").forEach(x=>x.addEventListener("click",()=>openEdit(+x.dataset.record)));}
+function renderTable(){let q=($("#record-search")?.value||"").toLowerCase();$("#records-table").innerHTML=records.filter(r=>r.doc.toLowerCase().includes(q)).map((r,i)=>`<tr data-record="${i}"><td>${r.doc}</td><td>${r.date}</td><td>${r.upload}</td><td><i class="bi bi-chevron-right"></i></td></tr>`).join("");$$("#records-table [data-record]").forEach(x=>x.addEventListener("click",()=>openEdit(+x.dataset.record)));}
+function currentPatientRecords(){return patientRecordsByPatient[patients[selectedPatient].recordKey]||[];}
+function renderPatientRecords(){let q=($("#patient-record-search")?.value||"").toLowerCase();let patientRecords=currentPatientRecords();$("#patient-records-table").innerHTML=patientRecords.map((r,i)=>({record:r,index:i})).filter(x=>x.record.doc.toLowerCase().includes(q)).map(x=>`<tr class="clickable-record" data-patient-record="${x.index}"><td><strong>${x.record.doc}</strong></td><td>${x.record.date}</td><td>${x.record.upload}</td><td><span class="status approved"><i class="bi bi-check2"></i> Feldolgozva</span></td><td><i class="bi bi-eye"></i></td></tr>`).join("");$$("[data-patient-record]").forEach(row=>row.addEventListener("click",()=>openPatientRecord(+row.dataset.patientRecord)));}
+function openPatientRecord(index){let record=currentPatientRecords()[index];$("#patient-record-modal-eyebrow").textContent=`${patients[selectedPatient].name.toUpperCase()} LELETE`;$("#patient-record-title").textContent=record.doc;$("#patient-record-date").textContent=record.date;$("#patient-record-upload").textContent=record.upload;$("#patient-record-values").innerHTML=record.values.map(value=>`<div class="readonly-value"><div><strong>${value[0]} <button class="metric-info-btn" data-metric="${value[0]}" type="button"><i class="bi bi-info-circle"></i></button></strong><small>Referencia: ${value[2]}</small></div><strong class="measured-value">${value[1]}</strong></div>`).join("");new bootstrap.Modal($("#patientRecordModal")).show();}
+function openPatient(i){selectedPatient=i;if(patients[i].kind==="pending")return;showView("patient");$("#patient-name").textContent=patients[i].name;$("#patient-meta").textContent=patients[i].meta;$("#patient-latest").textContent=patients[i].latest;drawPatientChart();}
+function openEdit(i){activeRecord=i;let r=records[i];showView("edit");$("#edit-title").textContent=r.doc;$("#edit-doc").value=r.doc;$("#edit-date").value=r.iso;$("#edit-upload").value=r.iso;$("#values-list").innerHTML=r.values.map(v=>`<div class="value-row"><div><strong>${v[0]} <button class="metric-info-btn" data-metric="${v[0]}" type="button"><i class="bi bi-info-circle"></i></button></strong><br><small>${v[2]}</small></div><input class="form-control" value="${v[1]}"><small>${v[2].split(" ")[1]||""}</small></div>`).join("");ensureAddValueButton();}
+function availableMetrics(){let used=[...$("#values-list").querySelectorAll("select.new-metric")].map(select=>select.value);used.push(...records[activeRecord].values.map(value=>value[0]));return additionalMetrics.filter(metric=>!used.includes(metric));}
+function refreshMetricOptions(){let selects=[...$("#values-list").querySelectorAll("select.new-metric")];selects.forEach(select=>{let selected=select.value;let used=records[activeRecord].values.map(value=>value[0]).concat(selects.filter(other=>other!==select).map(other=>other.value));select.innerHTML=additionalMetrics.filter(metric=>!used.includes(metric)||metric===selected).map(metric=>`<option>${metric}</option>`).join("");if(selected)select.value=selected;});}
+function addValueRow(){let options=availableMetrics();if(!options.length)return;$("#values-list").insertAdjacentHTML("beforeend",`<div class="value-row new-value-row"><div><select class="form-select new-metric">${options.map(metric=>`<option>${metric}</option>`).join("")}</select></div><input class="form-control" placeholder="Érték"><button class="save-value-btn" type="button" aria-label="Mutató és érték mentése"><i class="bi bi-check-lg"></i></button></div>`);refreshMetricOptions();}
+function ensureAddValueButton(){if($("#add-value-btn"))return;$("#values-list").insertAdjacentHTML("afterend",'<button id="add-value-btn" class="add-value-btn"><i class="bi bi-plus-circle"></i> Új érték hozzáadása</button>');$("#add-value-btn").addEventListener("click",addValueRow);}
+function showMetricInfo(metric){let modal=document.querySelector("#metricInfoModal");if(!modal){document.body.insertAdjacentHTML("beforeend",'<div class="modal fade" id="metricInfoModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><div><p class="eyebrow">VÉRKÉP-MUTATÓ</p><h2 id="metric-info-title"></h2></div><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p id="metric-info-text" class="metric-info-text"></p></div></div></div></div>');modal=$("#metricInfoModal");}$("#metric-info-title").textContent=metric;$("#metric-info-text").textContent=metricDescriptions[metric]||"Erről a mutatóról jelenleg nincs részletes leírás.";new bootstrap.Modal(modal).show();}
+function drawChart(metric="health"){let data=metric==="hemoglobin"?[76,79,77,81,84]:metric==="glucose"?[80,78,82,80,83]:metric==="cholesterol"?[69,72,75,78,81]:[72,76,79,81,84];$("#current-score").textContent=`${data.at(-1)} / 100`;chart=createTrend($("#health-chart"),chart,data);}
+function drawPatientChart(){let canvas=$("#patient-chart");if(!canvas)return;if(patientChart)patientChart.destroy();let p=patients[selectedPatient];$("#patient-score").textContent=p.score;patientChart=new Chart(canvas,{type:"line",data:{labels:["2023. okt.","2023. dec.","2024. febr.","2024. ápr.","2024. jún."],datasets:[{data:p.trend,fill:true,borderColor:"#4fc4ad",backgroundColor:"rgba(87,199,175,.12)",borderWidth:2.5,tension:.4,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{min:50,max:100}}}});}
+function createTrend(canvas,instance,data){if(!canvas)return instance&&instance.destroy();if(instance)instance.destroy();return new Chart(canvas,{type:"line",data:{labels:["2023. okt.","2023. dec.","2024. febr.","2024. ápr.","2024. jún."],datasets:[{data,fill:true,borderColor:"#4fc4ad",backgroundColor:"rgba(87,199,175,.12)",borderWidth:2.5,tension:.4,pointRadius:4,pointBackgroundColor:"#fff",pointBorderColor:"#4fc4ad",pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{min:50,max:100,grid:{color:"#edf2f3"},ticks:{color:"#a1acb9",stepSize:10}}}}});}
+function drawRecordsChart(){recordsChart=createTrend($("#records-chart"),recordsChart,[72,76,79,81,84]);}
+function drawPatientRecordsChart(){patientRecordsChart=createTrend($("#patient-records-chart"),patientRecordsChart,patients[selectedPatient].trend);}
+$$("[data-auth-tab]").forEach(btn=>btn.addEventListener("click",()=>{let register=btn.dataset.authTab==="register";$$(".auth-tab").forEach(x=>x.classList.toggle("active",x===btn));$("#login-form").classList.toggle("d-none",register);$("#register-form").classList.toggle("d-none",!register);}));$("#login-form").addEventListener("submit",e=>{e.preventDefault();openApp()});$("#register-form").addEventListener("submit",e=>{e.preventDefault();openApp()});$$(".google-btn").forEach(x=>x.addEventListener("click",openApp));$$("[data-view]").forEach(x=>x.addEventListener("click",()=>showView(x.dataset.view)));$$("[data-profile]").forEach(x=>x.addEventListener("click",()=>new bootstrap.Modal($("#profileModal")).show()));$(".logout-btn").addEventListener("click",()=>{$("#app-view").classList.add("d-none");$("#auth-view").classList.remove("d-none")});$("#metric-select").addEventListener("change",e=>drawChart(e.target.value));$("#record-search").addEventListener("input",renderTable);$("#patient-record-search").addEventListener("input",renderPatientRecords);$("#save-record").addEventListener("click",()=>{records[activeRecord].doc=$("#edit-doc").value;renderRecent();showView("records")});
+document.addEventListener("click",event=>{let button=event.target.closest(".metric-info-btn");if(button)showMetricInfo(button.dataset.metric);});
+const newResultModal=new bootstrap.Modal($("#newResultModal"));$("#new-result-btn").addEventListener("click",()=>newResultModal.show());$("#new-result-form").addEventListener("submit",e=>{e.preventDefault();records.unshift({doc:$("#new-doc").value,date:$("#new-date").value,upload:$("#new-upload").value,iso:$("#new-date").value,values:[["Hemoglobin","—","120–160 g/L"],["Vércukor","—","3.9–5.6 mmol/L"],["Koleszterin","—","3.0–5.2 mmol/L"]]});newResultModal.hide();renderRecent();renderTable()});
+const invitePatientModal=new bootstrap.Modal($("#invitePatientModal"));let inviteCandidate;
+$("#invite-patient-btn").addEventListener("click",()=>invitePatientModal.show());
+$("#invite-patient-form").addEventListener("submit",event=>{
+ event.preventDefault();
+ const taj=$("#invite-taj").value.trim();
+ inviteCandidate=directoryPatients.find(patient=>patient.taj===taj)||patients.find(patient=>patient.taj===taj);
+ const result=$("#invite-result"),message=$("#invite-message");
+ if(!inviteCandidate){result.classList.remove("d-none");$("#invite-name").textContent="Nem található páciens";$("#invite-meta").textContent="Ellenőrizd a megadott TAJ-számot.";message.textContent="A rendszerben nem található ilyen TAJ-szám.";message.classList.add("error");$("#send-invite-btn").classList.add("d-none");return;}
+ $("#invite-avatar").textContent=inviteCandidate.name.split(" ").map(part=>part[0]).join("");
+ $("#invite-name").textContent=inviteCandidate.name;$("#invite-meta").textContent="Páciens profilja";
+ $("#invite-result-taj").textContent=inviteCandidate.taj;$("#invite-result-age").textContent=`${inviteCandidate.age} éves`;$("#invite-result-weight").textContent=`${inviteCandidate.weight} kg`;$("#invite-result-gender").textContent=inviteCandidate.gender;
+ message.textContent=inviteCandidate.kind==="pending"?"A páciens meghívása elküldhető.":"A páciens már szerepel a listában.";message.classList.toggle("error",inviteCandidate.kind!=="pending");result.classList.remove("d-none");$("#send-invite-btn").classList.toggle("d-none",inviteCandidate.kind!=="pending");
+});
+$("#send-invite-btn").addEventListener("click",()=>{
+ patients.push({...inviteCandidate});
+ directoryPatients.splice(directoryPatients.indexOf(inviteCandidate),1);
+ renderPatients();
+ invitePatientModal.hide();
+ $("#invite-patient-form").reset();
+ $("#invite-result").classList.add("d-none");
+});
+const documentsModal=new bootstrap.Modal($("#documentsModal"));
+$("#open-documents-btn").addEventListener("click",()=>{
+ if($("#register-form").reportValidity())documentsModal.show();
+});
+$$(".upload-field input").forEach(input=>input.addEventListener("change",()=>{
+ const fileName=input.files[0]?.name||"Nincs fájl kiválasztva";
+ input.closest(".upload-field").querySelector(".selected-file").textContent=fileName;
+}));
+$("#documents-form").addEventListener("submit",e=>{
+ e.preventDefault();
+ documentsModal.hide();
+ openApp();
+});
